@@ -58,6 +58,8 @@ def setup():
     
     elif (args.option == ["get"] or args.option == ["post"]) and args.url:
 
+        args.option = ''.join(args.option)
+
         # reads from -f file
         if args.f:
             f = open(args.f, "r")
@@ -66,7 +68,7 @@ def setup():
 
         args_dict = vars(args)
 
-        # print(args_dict)
+        #print(args_dict)
         return args_dict
 
     else:
