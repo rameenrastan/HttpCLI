@@ -24,7 +24,7 @@ def run(url):
     # connect to url
     try:
         s.connect((url, port))
-        s.sendall(get_request(url).encode())
+        s.sendall(get_request(url).encode('utf-8'))
     except socket.gaierror:
         print('error resolving host')
         s.close()
