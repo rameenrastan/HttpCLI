@@ -1,4 +1,4 @@
-# HTTPClient used to process GET / POST Requests
+# controller module mapping requests
 import socket
 import sys
 
@@ -21,7 +21,6 @@ def run(url):
 
     # socket creation
     try:
-        s = socket.socket()
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     except socket.error as e:
         # print error trace and exit call
