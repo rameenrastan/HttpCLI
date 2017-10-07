@@ -4,7 +4,14 @@ import sys
 
 
 def get_request(url):
+    # format: get [-v] [-h key:value] URL
     return "GET / HTTP/1.1\r\nHost: %s\r\n\r\n" % url
+
+
+def post_request(url):
+    # format: post [-v] [-h key:value] [-d inline-data] [-f file] URL
+    # TODO process post request
+    return "" % url
 
 
 def run(url):
@@ -26,6 +33,7 @@ def run(url):
         s.connect((url, port))
         s.sendall(get_request(url).encode('utf-8'))
     except socket.gaierror:
+        # print error, close socket and exit system
         print('error resolving host')
         s.close()
         sys.exit(0)
