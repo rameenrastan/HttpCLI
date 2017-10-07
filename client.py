@@ -53,6 +53,7 @@ def setup():
     
     args_dict = vars(args)
 
+    return args_dict
     #print(args_dict)
     #print (args.h.split(":"))
     
