@@ -3,7 +3,11 @@ import socket
 import sys
 
 
-def run():
+def get_request(url):
+    return "GET / HTTP/1.1\r\nHost: %s\r\n\r\n" % url
+
+
+def run(url):
 
     # port number for socket
     port = 80
@@ -19,8 +23,8 @@ def run():
 
     # connect to url
     try:
-        s.connect(('www.acasann.com', port))
-        s.sendall(b"GET / HTTP/1.1\r\nHost: www.cnn.com\r\n\r\n")
+        s.connect((url, port))
+        s.sendall(get_request(url).encode())
     except socket.gaierror:
         print('error resolving host')
         s.close()
@@ -35,7 +39,9 @@ def run():
 
 # main function
 def main():
-    run()
+    # TODO replace with correct URL from user input
+    url = 'www.cnn.com'
+    run(url)
 
 
 # main function call
