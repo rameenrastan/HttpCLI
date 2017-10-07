@@ -8,10 +8,8 @@ def run():
 
 
 def main():
-    # request = client.parse()
-    # controller.parse_dictionary(request)
-    # request_str = controller.generate_get_request(request)
-    # controller.serve_request(request_str)
+    request = client.parse()
+    controller.serve_request(request)
 
 
 if __name__ == '__main__':

@@ -4,39 +4,42 @@ import sys
 
 
 def map_request(request):
-    if request['option'] == 'get':
-        generate_get_request(request)
-    elif request['option'] == 'post':
-        generate_post_request(request)
+    if request is not None:
+        if request['option'] == 'get':
+            return generate_get_request(request)
+        elif request['option'] == 'post':
+            return generate_post_request(request)
+        else:
+            print('Error encountered while mapping request.')
+            return None
     else:
-        print('Error encountered while mapping request.')
+        sys.exit(1)
 
 
 def generate_get_request(request):
 
-    headers = request.get('h')
     url = request.get('url')
+    request_str = "GET / HTTP/1.1\r\nHost: %s " % url
 
-    request = "GET / HTTP/1.1\r\nHost: %s " % url
+    headers = request.get('h')
+    if headers is not None:
+        for i in headers:
+            request_str += "\r\n" + i
 
-    for i in headers:
-        request += "\r\n" + i
+    request_str += "\r\n\r\n\r\n"
 
-    request += "\r\n\r\n\r\n" 
-
-    b = bytearray()
-    b.extend(map(ord,request))
-    
-    print('generate get request called')
+    return request_str
 
 
 def generate_post_request(request):
     print('generate post request called')
 
 
-def serve_request(url):
+def serve_request(request):
 
-    if url is not None:
+    request_str = map_request(request)
+
+    if request_str is not None:
 
         port = 80
 
@@ -47,8 +50,8 @@ def serve_request(url):
             sys.exit(0)
 
         try:
-            s.connect((url, port))
-            s.sendall(generate_get_request(url).encode('utf-8'))
+            s.connect((request.get('url'), port))
+            s.sendall(request_str.encode('utf-8'))
         except socket.gaierror:
             print('error resolving host')
             s.close()
@@ -63,7 +66,7 @@ def serve_request(url):
 
 
 def main():
-    print('main called')
+    print('main')
 
 
 if __name__ == '__main__':
