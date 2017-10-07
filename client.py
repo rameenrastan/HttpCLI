@@ -10,7 +10,7 @@ def setup():
     #add arguments to CLI
     parser.add_argument('option', type=str, nargs='+', choices=set(("get", "post", "help", "get help", "post help")))
     parser.add_argument('-v', action="store_true")
-    parser.add_argument('-h', type=str)
+    parser.add_argument('-h', nargs='+', type=str)
     parser.add_argument('-d', type=str)
     parser.add_argument('-f', type=str)
     parser.add_argument('-url', type=str)
