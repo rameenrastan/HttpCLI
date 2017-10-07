@@ -53,7 +53,9 @@ def setup():
     
     args_dict = vars(args)
 
-    return args_dict
+    if (args.option == ["get"] or args.option == ["post"]) and args.url:
+        return args_dict
+    
     #print(args_dict)
     #print (args.h.split(":"))
     
