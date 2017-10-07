@@ -13,6 +13,11 @@ import sys
 # }
 
 
+# TODO parse request dictionary
+def parse_dictionary(dict):
+    return ''
+
+
 def get_request(url):
     # format: get [-v] [-h key:value] URL
     return "GET / HTTP/1.1\r\nHost: %s\r\n\r\n" % url
