@@ -1,0 +1,2 @@
+{"article": {"issue_id": "1", "title": "hello", 
+"translations_attributes": {"0": {"locale": "en", "id": "", "content": '"`cat file.json`"'}}}}

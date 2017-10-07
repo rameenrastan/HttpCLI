@@ -1,6 +1,9 @@
 import argparse
 
-# python CLI module
+# COMP 445 Assignment 1
+# cURL-like Command Line
+# Rameen Rastan-Vadiveloo (27191863)
+# Vincent Fugnitto (27207999)
 
 
 def setup():
@@ -8,7 +11,7 @@ def setup():
     parser = argparse.ArgumentParser(add_help=False)
 
     #add arguments to CLI
-    parser.add_argument('option', type=str, nargs='+', choices=set(("get", "post", "help", "get help", "post help")))
+    parser.add_argument('option', type=str, nargs='+', choices=set(("get", "post", "help", "help get", "help post")))
     parser.add_argument('-v', action="store_true")
     parser.add_argument('-h', nargs='+', type=str)
     parser.add_argument('-d', type=str)
@@ -33,7 +36,7 @@ def setup():
         print ('Use "httpclient help [command]" for more information about a command.\n')
 
     #get help
-    elif args.option == ["get","help"]:
+    elif args.option == ["help", "get"]:
 
         print ('\nusage: httpclient get [-v] [-h key:value] URL')
         print ('get executes a HTTP GET request for a given URL.')
@@ -41,7 +44,7 @@ def setup():
         print ('\t-h key:value\tAssociates headers to HTTP request with the format "key:value".\n')
 
     #post help
-    elif args.option == ["post","help"]:
+    elif args.option == ["help", "post"]:
 
         print ('\nusage: httpclient post [-v] [-h key:value] [-d inline-data] [-f file] URL')
         print ('post executes a HTTP POST request for a given URL with inline data or from file.')
@@ -51,13 +54,28 @@ def setup():
         print ('\t-f file\tAssociates the content of a file to the body HTTP POST request.')
         print ('Either [-d] or [-f] can be used but not both.\n')     
     
-    args_dict = vars(args)
+    elif args.option == "post" and args.d and args.f:
 
-    if (args.option == ["get"] or args.option == ["post"]) and args.url:
-        return args_dict
+        print("You must either specify -d or -f for a post request, but not both.")
+
     
-    #print(args_dict)
-    #print (args.h.split(":"))
+    elif (args.option == ["get"] or args.option == ["post"]) and args.url:
+
+        #reads from -f file
+        if args.f:
+
+            f = open(args.f, "r")
+            f = f.read().replace('\n', '')
+            args.f = f
+
+        args_dict = vars(args)
+
+        #print(args_dict)
+        return args_dict
+
+    else:
+
+        print("Invalid command.")    
     
 
 def main():
