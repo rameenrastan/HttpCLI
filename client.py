@@ -6,7 +6,7 @@ import argparse
 # Vincent Fugnitto (27207999)
 
 
-def setup():
+def parse():
 
     parser = argparse.ArgumentParser(add_help=False)
 
@@ -22,36 +22,19 @@ def setup():
 
     # check if get or post request is called without specifying a URL
     if args.url is None and (args.option == ["get"] or args.option == ["post"]):
-        print('Must specify URL.')
+        print('Error, %s method requires a URL.' % args.option)
 
     # help
     if args.option == ["help"]:
-
-        print('\nhttpclient is a curl-like application but supports HTTP protocol only:')
-        print('Usage:\n\thttpclient command [arguments]')
-        print('The commands are:\n\tget\texecutes a HTTP GET request and prints the response.')
-        print('\tpost\texecutes a HTTP POST request and prints the response.')
-        print('\thelp\tprints this screen.')
-        print('Use "httpclient help [command]" for more information about a command.\n')
+        perform_help()
 
     # get help
     elif args.option == ["help", "get"]:
-
-        print('\nusage: httpclient get [-v] [-h key:value] URL')
-        print('get executes a HTTP GET request for a given URL.')
-        print('\t-v\tPrints the detail of a response such as protocol, status, and headers.')
-        print('\t-h key:value\tAssociates headers to HTTP request with the format "key:value".\n')
+        perform_help_get()
 
     # post help
     elif args.option == ["help", "post"]:
-
-        print('\nusage: httpclient post [-v] [-h key:value] [-d inline-data] [-f file] URL')
-        print('post executes a HTTP POST request for a given URL with inline data or from file.')
-        print('\t-v\tPrints the detail of a response such as protocol, status, and headers.')
-        print('\t-h key:value\tAssociates headers to HTTP request with the format "key:value".')
-        print('\t-d string\tAssociates an inline data to the body HTTP POST request.')
-        print('\t-f file\tAssociates the content of a file to the body HTTP POST request.')
-        print('Either [-d] or [-f] can be used but not both.\n')
+        perform_help_post()
     
     elif args.option == "post" and args.d and args.f:
         print("You must either specify -d or -f for a post request, but not both.")
@@ -68,15 +51,42 @@ def setup():
 
         args_dict = vars(args)
 
-        #print(args_dict)
+        # return dictionary to controller
+        print(args_dict)
         return args_dict
 
     else:
-        print("Invalid command.")    
+        print("Invalid command.")
     
 
+def perform_help():
+    print('\nhttpclient is a curl-like application but supports HTTP protocol only:')
+    print('Usage:\n\thttpclient command [arguments]')
+    print('The commands are:\n\tget\texecutes a HTTP GET request and prints the response.')
+    print('\tpost\texecutes a HTTP POST request and prints the response.')
+    print('\thelp\tprints this screen.')
+    print('Use "httpclient help [command]" for more information about a command.\n')
+
+
+def perform_help_get():
+    print('\nusage: httpclient get [-v] [-h key:value] URL')
+    print('get executes a HTTP GET request for a given URL.')
+    print('\t-v\tPrints the detail of a response such as protocol, status, and headers.')
+    print('\t-h key:value\tAssociates headers to HTTP request with the format "key:value".\n')
+
+
+def perform_help_post():
+    print('\nusage: httpclient post [-v] [-h key:value] [-d inline-data] [-f file] URL')
+    print('post executes a HTTP POST request for a given URL with inline data or from file.')
+    print('\t-v\tPrints the detail of a response such as protocol, status, and headers.')
+    print('\t-h key:value\tAssociates headers to HTTP request with the format "key:value".')
+    print('\t-d string\tAssociates an inline data to the body HTTP POST request.')
+    print('\t-f file\tAssociates the content of a file to the body HTTP POST request.')
+    print('Either [-d] or [-f] can be used but not both.\n')
+
+
 def main():
-    setup()
+    parse()
 
 
 if __name__ == '__main__':

@@ -2,70 +2,55 @@
 import socket
 import sys
 
-# request =
-# {
-# 'type': '',
-#  'verbose': '',
-#  'header': '',
-#  'inline_data': '',
-#  'file': '',
-#  'url': ''
-# }
+
+def map_request(request):
+    if request['option'] == 'get':
+        generate_get_request(request)
+    elif request['option'] == 'post':
+        generate_post_request(request)
+    else:
+        print('Error encountered while mapping request.')
 
 
-# TODO parse request dictionary
-def parse_dictionary(dict):
-    return ''
+def generate_get_request(request):
+    print('generate get request called')
 
 
-def get_request(url):
-    # format: get [-v] [-h key:value] URL
-    return "GET / HTTP/1.1\r\nHost: %s\r\n\r\n" % url
+def generate_post_request(request):
+    print('generate post request called')
 
 
-def post_request(url):
-    # format: post [-v] [-h key:value] [-d inline-data] [-f file] URL
-    # TODO process post request
-    return "" % url
+def serve_request(url):
 
+    if url is not None:
 
-def run(url):
+        port = 80
 
-    # port number for socket
-    port = 80
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        except socket.error as e:
+            print('error during socket creation: %s' % e)
+            sys.exit(0)
 
-    # socket creation
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    except socket.error as e:
-        # print error trace and exit call
-        print('error during socket creation: %s' % e)
-        sys.exit(0)
+        try:
+            s.connect((url, port))
+            s.sendall(generate_get_request(url).encode('utf-8'))
+        except socket.gaierror:
+            print('error resolving host')
+            s.close()
+            sys.exit(0)
 
-    # connect to url
-    try:
-        s.connect((url, port))
-        s.sendall(get_request(url).encode('utf-8'))
-    except socket.gaierror:
-        # print error, close socket and exit system
-        print('error resolving host')
+        data = s.recv(4096)
+        print(data)
         s.close()
-        sys.exit(0)
 
-    # process response
-    data = s.recv(4096)
-    print(data)
-    # close socket
-    s.close()
+    else:
+        print('Unknown error encountered while serving request.')
 
 
-# main function
 def main():
-    # TODO replace with correct URL from user input
-    url = 'www.cnn.com'
-    run(url)
+    print('main called')
 
 
-# main function call
 if __name__ == '__main__':
     main()
