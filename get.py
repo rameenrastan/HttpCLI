@@ -1,14 +1,43 @@
 # HTTPClient used to process GET / POST Requests
-import logging
 import socket
 import sys
 
 
-s = socket.socket()
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)     
+def run():
 
-s.connect(('www.cnn.com', 80))
-s.sendall("GET / HTTP/1.1\r\nHost: www.cnn.com\r\nContent-Type: application/json\r\n\r\n")
+    # port number for socket
+    port = 80
 
-print(s.recv(4096))
-s.close
+    # socket creation
+    try:
+        s = socket.socket()
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    except socket.error as e:
+        # print error trace and exit call
+        print('error during socket creation: %s' % e)
+        sys.exit(0)
+
+    # connect to url
+    try:
+        s.connect(('www.acasann.com', port))
+        s.sendall(b"GET / HTTP/1.1\r\nHost: www.cnn.com\r\n\r\n")
+    except socket.gaierror:
+        print('error resolving host')
+        s.close()
+        sys.exit(0)
+
+    # process response
+    data = s.recv(4096)
+    print(data)
+    # close socket
+    s.close()
+
+
+# main function
+def main():
+    run()
+
+
+# main function call
+if __name__ == '__main__':
+    main()
