@@ -13,6 +13,20 @@ def map_request(request):
 
 
 def generate_get_request(request):
+
+    headers = request.get('h')
+    url = request.get('url')
+
+    request = "GET / HTTP/1.1\r\nHost: %s " % url
+
+    for i in headers:
+        request += "\r\n" + i
+
+    request += "\r\n\r\n\r\n" 
+
+    b = bytearray()
+    b.extend(map(ord,request))
+    
     print('generate get request called')
 
 
