@@ -2,6 +2,16 @@
 import socket
 import sys
 
+# request =
+# {
+# 'type': '',
+#  'verbose': '',
+#  'header': '',
+#  'inline_data': '',
+#  'file': '',
+#  'url': ''
+# }
+
 
 def get_request(url):
     # format: get [-v] [-h key:value] URL
