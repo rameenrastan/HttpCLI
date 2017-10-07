@@ -42,7 +42,7 @@ def setup():
         print('\t-v\tPrints the detail of a response such as protocol, status, and headers.')
         print('\t-h key:value\tAssociates headers to HTTP request with the format "key:value".\n')
 
-    #post help
+    # post help
     elif args.option == ["help", "post"]:
 
         print('\nusage: httpclient post [-v] [-h key:value] [-d inline-data] [-f file] URL')
