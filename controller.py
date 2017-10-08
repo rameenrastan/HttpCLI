@@ -32,7 +32,18 @@ def generate_get_request(request):
 
 
 def generate_post_request(request):
-    print('generate post request called')
+
+    url = request.get('url')
+    request_str = "POST / HTTP/1.1\r\nHost: %s " % url
+
+    headers = request.get('h')
+    if headers is not None:
+        for i in headers:
+            request_str += "\r\n" + i
+
+    request_str += "\r\n\r\n\r\n"
+
+    return request_str
 
 
 def serve_request(request):
