@@ -43,6 +43,14 @@ def generate_post_request(request):
 
     request_str += "\r\n\r\n\r\n"
 
+    if request.get('f') is not None:
+
+        request_str += request.get('f')
+
+    elif request.get('d') is not None:
+
+        request_str += request.get('d')    
+
     return request_str
 
 
