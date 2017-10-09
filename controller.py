@@ -3,6 +3,7 @@ import socket
 import sys
 
 
+# map user request to proper request controller method
 def map_request(request):
     if request is not None:
         if request['option'] == 'get':
@@ -16,16 +17,23 @@ def map_request(request):
         sys.exit(1)
 
 
-def generate_get_request(request):
+# process request to obtain complete url, url (for connection), and params
+def process_url(request):
 
     complete_url = request.get('url')
     url = complete_url.rsplit('/')[0]
-    count = len(url) + 1
-    param = complete_url[count:]
+    param = complete_url[(len(url) + 1):]
 
-    print('param: %s' % param)
+    return {'complete_url': complete_url, 'url': url, 'param': param}
 
-    request_str = "GET /%s HTTP/1.1\r\nHost: %s " % (param, complete_url)
+
+# generate get request to send through socket
+def generate_get_request(request):
+
+    url_dict = process_url(request)
+
+    request_str = "GET /%s HTTP/1.1\r\nHost: %s " \
+                  % (url_dict.get('param'), url_dict.get('complete_url'))
 
     headers = request.get('h')
     if headers is not None:
@@ -38,10 +46,13 @@ def generate_get_request(request):
     return request_str
 
 
+# generate post request to send through socket
 def generate_post_request(request):
 
-    url = request.get('url')
-    request_str = "POST / HTTP/1.1\r\nHost: %s " % url
+    url_dict = process_url(request)
+
+    request_str = "POST /%s HTTP/1.1\r\nHost: %s " % \
+                  (url_dict.get('param'), url_dict.get('complete_url'))
 
     headers = request.get('h')
     if headers is not None:
@@ -61,6 +72,7 @@ def generate_post_request(request):
     return request_str
 
 
+# serve user request
 def serve_request(request):
 
     request_str = map_request(request)
@@ -75,13 +87,10 @@ def serve_request(request):
             print('error during socket creation: %s' % e)
             sys.exit(0)
 
-        url = request.get('url')
-        url_str = url.rsplit('/')[0]
-
-        print('url: %s' % url_str)
+        url = request.get('url').rsplit('/')[0]
 
         try:
-            s.connect((url_str, port))
+            s.connect((url, port))
             print('debug connect 2')
             s.sendall(request_str.encode('utf-8'))
         except socket.gaierror:
