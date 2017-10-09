@@ -92,8 +92,13 @@ def serve_request(request):
         data = s.recv(4096)
         data = data.decode('utf-8')
 
-        # display response to user
-        print("\n%s" % data)
+        # display response to user based on verbosity
+        if request.get('v'):
+            print("\n%s" % data)
+        else:
+            count = len(data.rsplit('\r\n\r\n')[0])
+            print("\n%s " % data[count:])
+
         s.close()
         sys.exit(1)
 
