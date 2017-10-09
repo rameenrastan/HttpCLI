@@ -1,11 +1,7 @@
 import argparse
 
-# COMP 445 Assignment 1
-# cURL-like Command Line
-# Rameen Rastan-Vadiveloo (27191863)
-# Vincent Fugnitto (27207999)
 
-
+# parse user input
 def parse():
 
     parser = argparse.ArgumentParser(add_help=False)
@@ -49,16 +45,14 @@ def parse():
             f = f.read().replace('\n', '')
             args.f = f
 
-        args_dict = vars(args)
-
         # return dictionary to controller
-        print(args_dict)
-        return args_dict
+        return vars(args)
 
     else:
         print("Invalid command.")
     
 
+# perform user help request
 def perform_help():
     print('\nhttpclient is a curl-like application but supports HTTP protocol only:')
     print('Usage:\n\thttpclient command [arguments]')
@@ -68,6 +62,7 @@ def perform_help():
     print('Use "httpclient help [command]" for more information about a command.\n')
 
 
+# perform user help get request
 def perform_help_get():
     print('\nusage: httpclient get [-v] [-h key:value] URL')
     print('get executes a HTTP GET request for a given URL.')
@@ -75,6 +70,7 @@ def perform_help_get():
     print('\t-h key:value\tAssociates headers to HTTP request with the format "key:value".\n')
 
 
+# perform user post request
 def perform_help_post():
     print('\nusage: httpclient post [-v] [-h key:value] [-d inline-data] [-f file] URL')
     print('post executes a HTTP POST request for a given URL with inline data or from file.')

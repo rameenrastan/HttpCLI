@@ -39,8 +39,6 @@ def generate_get_request(request):
             request_str += "\r\n" + i
 
     request_str += "\r\n\r\n\r\n"
-
-    print('request_str: %s' % request_str)
     return request_str
 
 
@@ -59,11 +57,9 @@ def generate_post_request(request):
     request_str += "\r\n\r\n\r\n"
 
     if request.get('f') is not None:
-
         request_str += request.get('f')
 
     elif request.get('d') is not None:
-
         request_str += request.get('d')
 
     return request_str
@@ -87,7 +83,6 @@ def serve_request(request):
 
         try:
             s.connect((url, port))
-            print('debug connect 2')
             s.sendall(request_str.encode('utf-8'))
         except socket.gaierror:
             print('error resolving host')
@@ -96,8 +91,11 @@ def serve_request(request):
 
         data = s.recv(4096)
         data = data.decode('utf-8')
-        print(data)
+
+        # display response to user
+        print("\n%s" % data)
         s.close()
+        sys.exit(1)
 
     else:
         print('Unknown error encountered while serving request.')
