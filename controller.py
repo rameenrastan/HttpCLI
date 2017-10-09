@@ -19,7 +19,6 @@ def map_request(request):
 
 # process request to obtain complete url, url (for connection), and params
 def process_url(request):
-
     complete_url = request.get('url')
     url = complete_url.rsplit('/')[0]
     param = complete_url[(len(url) + 1):]
@@ -29,7 +28,6 @@ def process_url(request):
 
 # generate get request to send through socket
 def generate_get_request(request):
-
     url_dict = process_url(request)
 
     request_str = "GET /%s HTTP/1.1\r\nHost: %s " \
@@ -48,7 +46,6 @@ def generate_get_request(request):
 
 # generate post request to send through socket
 def generate_post_request(request):
-
     url_dict = process_url(request)
 
     request_str = "POST /%s HTTP/1.1\r\nHost: %s " % \
@@ -67,14 +64,13 @@ def generate_post_request(request):
 
     elif request.get('d') is not None:
 
-        request_str += request.get('d')    
+        request_str += request.get('d')
 
     return request_str
 
 
 # serve user request
 def serve_request(request):
-
     request_str = map_request(request)
 
     if request_str is not None:
