@@ -20,7 +20,7 @@ def generate_get_request(request):
 
     complete_url = request.get('url')
     url = complete_url.rsplit('/')[0]
-    count = len(url)
+    count = len(url) + 1
     param = complete_url[count:]
 
     print('param: %s' % param)
@@ -34,6 +34,7 @@ def generate_get_request(request):
 
     request_str += "\r\n\r\n\r\n"
 
+    print('request_str: %s' % request_str)
     return request_str
 
 
