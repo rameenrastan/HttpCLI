@@ -83,13 +83,14 @@ def serve_request(request):
         try:
             s.connect((url_str, port))
             print('debug connect 2')
-            s.sendall(request_str.encode('ascii'))
+            s.sendall(request_str.encode('utf-8'))
         except socket.gaierror:
             print('error resolving host')
             s.close()
             sys.exit(0)
 
         data = s.recv(4096)
+        data = data.decode('utf-8')
         print(data)
         s.close()
 
