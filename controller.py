@@ -18,8 +18,14 @@ def map_request(request):
 
 def generate_get_request(request):
 
-    url = request.get('url')
-    request_str = "GET / HTTP/1.1\r\nHost: %s " % url
+    complete_url = request.get('url')
+    url = complete_url.rsplit('/')[0]
+    count = len(url)
+    param = complete_url[count:]
+
+    print('param: %s' % param)
+
+    request_str = "GET /%s HTTP/1.1\r\nHost: %s " % (param, url)
 
     headers = request.get('h')
     if headers is not None:
@@ -68,9 +74,15 @@ def serve_request(request):
             print('error during socket creation: %s' % e)
             sys.exit(0)
 
+        url = request.get('url')
+        url_str = url.rsplit('/')[0]
+
+        print('url: %s' % url_str)
+
         try:
-            s.connect((request.get('url'), port))
-            s.sendall(request_str.encode('utf-8'))
+            s.connect((url_str, port))
+            print('debug connect 2')
+            s.sendall(request_str.encode('ascii'))
         except socket.gaierror:
             print('error resolving host')
             s.close()
