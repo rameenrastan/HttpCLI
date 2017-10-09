@@ -25,7 +25,7 @@ def generate_get_request(request):
 
     print('param: %s' % param)
 
-    request_str = "GET /%s HTTP/1.1\r\nHost: %s " % (param, url)
+    request_str = "GET /%s HTTP/1.1\r\nHost: %s " % (param, complete_url)
 
     headers = request.get('h')
     if headers is not None:
